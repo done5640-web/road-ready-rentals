@@ -11,13 +11,14 @@ import galleryHandover from "@/assets/gallery-handover.jpg";
 import heroImage from "@/assets/hero-car.jpg";
 
 const galleryImages = [
-  { src: heroImage, alt: "Premium red sports car on road", span: "col-span-2 row-span-2" },
-  { src: galleryFleet, alt: "Our car fleet", span: "col-span-1 row-span-1" },
-  { src: galleryInterior, alt: "Premium car interior", span: "col-span-1 row-span-1" },
-  { src: carSedan, alt: "Luxury sedan", span: "col-span-1 row-span-1" },
-  { src: carConvertible, alt: "Convertible sports car", span: "col-span-1 row-span-1" },
-  { src: galleryHandover, alt: "Car keys handover", span: "col-span-1 row-span-1" },
-  { src: carCompact, alt: "Compact city car", span: "col-span-1 row-span-1" },
+  { src: heroImage, alt: "Premium red sports car on road" },
+  { src: galleryFleet, alt: "Our car fleet" },
+  { src: galleryInterior, alt: "Premium car interior" },
+  { src: carSedan, alt: "Luxury sedan" },
+  { src: carConvertible, alt: "Convertible sports car" },
+  { src: galleryHandover, alt: "Car keys handover" },
+  { src: carCompact, alt: "Compact city car" },
+  { src: carSuv, alt: "SUV Premium" },
 ];
 
 export const GallerySection = () => {
@@ -47,7 +48,7 @@ export const GallerySection = () => {
           </p>
         </motion.div>
 
-        {/* Gallery Grid */}
+        {/* Gallery Grid - symmetrical 4 columns, 2 rows */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
           {galleryImages.map((image, index) => (
             <motion.div
@@ -55,12 +56,12 @@ export const GallerySection = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`${image.span} relative rounded-2xl overflow-hidden group cursor-pointer`}
+              className="relative rounded-2xl overflow-hidden group cursor-pointer aspect-[4/3]"
             >
               <img
                 src={image.src}
                 alt={image.alt}
-                className="w-full h-full object-cover min-h-[200px] group-hover:scale-110 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/20 transition-colors duration-300" />
             </motion.div>

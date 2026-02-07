@@ -2,48 +2,64 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import logo from "@/assets/rental logo.png";
 
 const navLinks = [
-  { href: "#kreu", label: "Kreu" },
-  { href: "#rreth-nesh", label: "Rreth Nesh" },
-  { href: "#makinat", label: "Makinat" },
-  { href: "#galeria", label: "Galeria" },
-  { href: "#kontakt", label: "Kontakt" },
+  { href: "/", label: "Kreu", hash: "#kreu" },
+  { href: "/rreth-nesh", label: "Rreth Nesh", hash: "#rreth-nesh" },
+  { href: "/makinat", label: "Makinat", hash: "#makinat" },
+  { href: "/galeria", label: "Galeria", hash: "#galeria" },
+  { href: "/kontakt", label: "Kontakt", hash: "#kontakt" },
 ];
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+  const handleNavClick = (link: typeof navLinks[0]) => {
     setIsOpen(false);
+    if (location.pathname === "/") {
+      // On homepage, scroll to section
+      const element = document.querySelector(link.hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    } else {
+      // On other pages, navigate to homepage then scroll
+      navigate("/");
+      setTimeout(() => {
+        const element = document.querySelector(link.hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    }
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-lg border-b border-border">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-border shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <a href="#kreu" className="flex items-center gap-2" onClick={(e) => { e.preventDefault(); scrollToSection("#kreu"); }}>
+          <Link to="/" className="flex items-center gap-3" onClick={() => setIsOpen(false)}>
+            <img src={logo} alt="Rental Car Ago" className="h-10 lg:h-12 w-auto" />
             <span className="text-xl lg:text-2xl font-bold text-foreground">
-              rental<span className="text-primary">car</span>_ago
+              Rental <span className="text-primary">Car</span> Ago
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
+              <button
                 key={link.href}
-                href={link.href}
-                onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
+                onClick={() => handleNavClick(link)}
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 {link.label}
-              </a>
+              </button>
             ))}
           </div>
 
@@ -53,7 +69,7 @@ export const Navbar = () => {
               <Phone className="h-4 w-4" />
               +355 123 456 789
             </a>
-            <Button onClick={() => scrollToSection("#makinat")} className="bg-primary text-primary-foreground hover:bg-primary/90">
+            <Button onClick={() => handleNavClick(navLinks[2])} className="bg-primary text-primary-foreground hover:bg-primary/90">
               Rezervo Tani
             </Button>
           </div>
@@ -76,20 +92,19 @@ export const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-background border-b border-border overflow-hidden"
+            className="lg:hidden bg-white border-b border-border overflow-hidden"
           >
             <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
               {navLinks.map((link) => (
-                <a
+                <button
                   key={link.href}
-                  href={link.href}
-                  onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
-                  className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2"
+                  onClick={() => handleNavClick(link)}
+                  className="text-base font-medium text-muted-foreground hover:text-foreground transition-colors py-2 text-left"
                 >
                   {link.label}
-                </a>
+                </button>
               ))}
-              <Button onClick={() => scrollToSection("#makinat")} className="bg-primary text-primary-foreground hover:bg-primary/90 w-full mt-2">
+              <Button onClick={() => { handleNavClick(navLinks[2]); }} className="bg-primary text-primary-foreground hover:bg-primary/90 w-full mt-2">
                 Rezervo Tani
               </Button>
             </div>

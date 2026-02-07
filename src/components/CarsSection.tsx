@@ -3,53 +3,8 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Users, Fuel, Settings, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import carSuv from "@/assets/car-suv.jpg";
-import carSedan from "@/assets/car-sedan.jpg";
-import carCompact from "@/assets/car-compact.jpg";
-import carConvertible from "@/assets/car-convertible.jpg";
-
-const cars = [
-  {
-    id: 1,
-    name: "SUV Premium",
-    category: "Familje & Aventura",
-    image: carSuv,
-    seats: "5-7",
-    fuel: "Diesel",
-    transmission: "Automatik",
-    price: "€45/ditë",
-  },
-  {
-    id: 2,
-    name: "Sedan Luksoz",
-    category: "Biznes & Komoditet",
-    image: carSedan,
-    seats: "5",
-    fuel: "Benzinë",
-    transmission: "Automatik",
-    price: "€55/ditë",
-  },
-  {
-    id: 3,
-    name: "Compact City",
-    category: "Qytet & Ekonomik",
-    image: carCompact,
-    seats: "5",
-    fuel: "Benzinë",
-    transmission: "Manual",
-    price: "€25/ditë",
-  },
-  {
-    id: 4,
-    name: "Convertible Sport",
-    category: "Aventura & Stil",
-    image: carConvertible,
-    seats: "2",
-    fuel: "Benzinë",
-    transmission: "Automatik",
-    price: "€75/ditë",
-  },
-];
+import { Link } from "react-router-dom";
+import { cars } from "@/data/cars";
 
 const CarCard = ({ car, index }: { car: typeof cars[0]; index: number }) => {
   const ref = useRef(null);
@@ -64,9 +19,9 @@ const CarCard = ({ car, index }: { car: typeof cars[0]; index: number }) => {
       className="group bg-card rounded-2xl overflow-hidden card-elevated"
     >
       {/* Image */}
-      <div className="relative h-56 overflow-hidden">
+      <Link to={`/makina/${car.id}`} className="block relative h-56 overflow-hidden">
         <img
-          src={car.image}
+          src={car.images[0]}
           alt={car.name}
           className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
         />
@@ -75,13 +30,15 @@ const CarCard = ({ car, index }: { car: typeof cars[0]; index: number }) => {
             {car.category}
           </span>
         </div>
-      </div>
+      </Link>
 
       {/* Content */}
       <div className="p-6">
-        <h3 className="text-xl font-display font-bold text-foreground mb-4">
-          {car.name}
-        </h3>
+        <Link to={`/makina/${car.id}`}>
+          <h3 className="text-xl font-display font-bold text-foreground mb-4 hover:text-primary transition-colors">
+            {car.name}
+          </h3>
+        </Link>
 
         {/* Specs */}
         <div className="flex items-center gap-4 mb-6 text-sm text-muted-foreground">
@@ -104,9 +61,11 @@ const CarCard = ({ car, index }: { car: typeof cars[0]; index: number }) => {
           <div>
             <span className="text-2xl font-bold text-foreground">{car.price}</span>
           </div>
-          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 group/btn">
-            Rezervo
-            <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+          <Button className="bg-primary text-primary-foreground hover:bg-primary/90 group/btn" asChild>
+            <Link to={`/makina/${car.id}`}>
+              Rezervo
+              <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
+            </Link>
           </Button>
         </div>
       </div>

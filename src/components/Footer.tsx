@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
 import { Facebook, Instagram, Twitter, Youtube, ArrowUp } from "lucide-react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 const footerLinks = {
   company: [
-    { label: "Rreth Nesh", href: "#rreth-nesh" },
-    { label: "Makinat Tona", href: "#makinat" },
-    { label: "Galeria", href: "#galeria" },
-    { label: "Kontakt", href: "#kontakt" },
+    { label: "Rreth Nesh", href: "/rreth-nesh", hash: "#rreth-nesh" },
+    { label: "Makinat Tona", href: "/makinat", hash: "#makinat" },
+    { label: "Galeria", href: "/galeria", hash: "#galeria" },
+    { label: "Kontakt", href: "/kontakt", hash: "#kontakt" },
   ],
   legal: [
     { label: "Kushtet e Përdorimit", href: "#" },
@@ -23,15 +24,28 @@ const socialLinks = [
 ];
 
 export const Footer = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const scrollToSection = (href: string) => {
-    if (href.startsWith("#")) {
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+  const handleNavClick = (link: { href: string; hash?: string }) => {
+    if (link.hash) {
+      if (location.pathname === "/") {
+        const element = document.querySelector(link.hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      } else {
+        navigate("/");
+        setTimeout(() => {
+          const element = document.querySelector(link.hash!);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
       }
     }
   };
@@ -39,14 +53,14 @@ export const Footer = () => {
   return (
     <footer className="bg-foreground text-background py-16 lg:py-20">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
-          <div className="lg:col-span-2">
-            <a href="#kreu" onClick={(e) => { e.preventDefault(); scrollToSection("#kreu"); }} className="inline-block mb-6">
+          <div className="sm:col-span-2">
+            <Link to="/" className="inline-block mb-6" onClick={scrollToTop}>
               <span className="text-2xl font-bold">
-                rental<span className="text-primary">car</span>_ago
+                Rental <span className="text-primary">Car</span> Ago
               </span>
-            </a>
+            </Link>
             <p className="text-background/70 mb-6 max-w-sm">
               Udhëto me besim. Ne jemi këtu për t'ju ofruar eksperiencën më të mirë të qirasë së makinave në Shqipëri.
             </p>
@@ -72,13 +86,12 @@ export const Footer = () => {
             <ul className="space-y-3">
               {footerLinks.company.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
-                    onClick={(e) => { e.preventDefault(); scrollToSection(link.href); }}
+                  <button
+                    onClick={() => handleNavClick(link)}
                     className="text-background/70 hover:text-primary transition-colors"
                   >
                     {link.label}
-                  </a>
+                  </button>
                 </li>
               ))}
             </ul>
@@ -105,7 +118,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-background/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-background/60">
-            © {new Date().getFullYear()} rentalcar_ago. Të gjitha të drejtat e rezervuara.
+            © {new Date().getFullYear()} Rental Car Ago. Të gjitha të drejtat e rezervuara.
           </p>
           <motion.button
             onClick={scrollToTop}

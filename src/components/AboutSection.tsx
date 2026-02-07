@@ -80,7 +80,7 @@ export const AboutSection = () => {
             </h2>
             
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-              Te rentalcar_ago, besojmë se marrja me qira e një makine duhet të jetë e thjeshtë, e shpejtë dhe e këndshme.
+              Te Rental Car Ago, besojmë se marrja me qira e një makine duhet të jetë e thjeshtë, e shpejtë dhe e këndshme.
             </p>
             
             <p className="text-muted-foreground mb-10 leading-relaxed">
