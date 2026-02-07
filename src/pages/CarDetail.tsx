@@ -231,7 +231,7 @@ export const CarDetail = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
                   size="lg"
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 flex-1"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 flex-1 py-6 text-base"
                   asChild
                 >
                   <a href="tel:+355123456789">
@@ -242,7 +242,7 @@ export const CarDetail = () => {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="flex-1"
+                  className="flex-1 py-6 text-base"
                   asChild
                 >
                   <a href="https://wa.me/355123456789" target="_blank" rel="noopener noreferrer">
