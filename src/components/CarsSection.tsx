@@ -13,9 +13,9 @@ const CarCard = ({ car, index }: { car: typeof cars[0]; index: number }) => {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.15 }}
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : {}}
+      transition={{ duration: 0.6, delay: index * 0.1 }}
       className="group bg-card rounded-2xl overflow-hidden card-elevated"
     >
       {/* Image */}
@@ -23,7 +23,7 @@ const CarCard = ({ car, index }: { car: typeof cars[0]; index: number }) => {
         <img
           src={car.images[0]}
           alt={car.name}
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute top-4 left-4">
           <span className="px-3 py-1.5 bg-primary text-primary-foreground text-xs font-semibold rounded-full">
@@ -75,7 +75,7 @@ const CarCard = ({ car, index }: { car: typeof cars[0]; index: number }) => {
 
 export const CarsSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
     <section id="makinat" className="py-20 lg:py-32 bg-secondary/30">
@@ -83,8 +83,8 @@ export const CarsSection = () => {
         {/* Header */}
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8 }}
           className="text-center max-w-3xl mx-auto mb-16"
         >

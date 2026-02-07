@@ -36,7 +36,7 @@ const contactInfo = [
 
 export const ContactSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -56,8 +56,8 @@ export const ContactSection = () => {
         {/* Header */}
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          initial={{ opacity: 0 }}
+          animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8 }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
@@ -76,14 +76,14 @@ export const ContactSection = () => {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
           {/* Contact Info */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <h3 className="text-2xl font-display font-bold text-foreground mb-8">
               Informacioni i Kontaktit
             </h3>
-            
+
             <div className="space-y-6 mb-10">
               {contactInfo.map((info, index) => (
                 <motion.a
@@ -91,8 +91,8 @@ export const ContactSection = () => {
                   href={info.href}
                   target={info.href.startsWith("http") ? "_blank" : undefined}
                   rel={info.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  initial={{ opacity: 0 }}
+                  animate={isInView ? { opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
                   className="flex items-center gap-4 p-4 rounded-xl bg-background hover:bg-primary/5 transition-colors group"
                 >
@@ -124,15 +124,15 @@ export const ContactSection = () => {
 
           {/* Contact Form */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.3 }}
           >
             <div className="bg-background p-8 rounded-2xl card-elevated">
               <h3 className="text-2xl font-display font-bold text-foreground mb-6">
                 Na shkruani
               </h3>
-              
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-4">
                   <div>
@@ -159,7 +159,7 @@ export const ContactSection = () => {
                     />
                   </div>
                 </div>
-                
+
                 <div>
                   <label className="text-sm font-medium text-foreground mb-2 block">
                     Email
@@ -173,7 +173,7 @@ export const ContactSection = () => {
                     className="bg-secondary/50 border-border focus:border-primary"
                   />
                 </div>
-                
+
                 <div>
                   <label className="text-sm font-medium text-foreground mb-2 block">
                     Mesazhi
@@ -187,7 +187,7 @@ export const ContactSection = () => {
                     className="bg-secondary/50 border-border focus:border-primary resize-none"
                   />
                 </div>
-                
+
                 <Button type="submit" size="lg" className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
                   Dërgo Mesazhin
                   <Send className="ml-2 h-4 w-4" />

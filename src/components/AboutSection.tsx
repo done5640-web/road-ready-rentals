@@ -29,17 +29,16 @@ const features = [
 
 export const AboutSection = () => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
     <section id="rreth-nesh" className="py-20 lg:py-32 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div ref={ref} className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Image Side */}
           <motion.div
-            ref={ref}
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.8 }}
             className="relative"
           >
@@ -51,28 +50,27 @@ export const AboutSection = () => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 to-transparent" />
             </div>
-            
           </motion.div>
 
           {/* Content Side */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <span className="inline-block px-4 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium mb-6">
               Rreth Nesh
             </span>
-            
+
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-6">
               Besoni në eksperiencën{" "}
               <span className="text-primary">tonë.</span>
             </h2>
-            
+
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
               Te Rental Car Ago, besojmë se marrja me qira e një makine duhet të jetë e thjeshtë, e shpejtë dhe e këndshme.
             </p>
-            
+
             <p className="text-muted-foreground mb-10 leading-relaxed">
               Ne ofrojmë makina të mirëmbajtura, çmime transparente dhe shërbim miqësor për çdo klient. Misioni ynë është t'ju ofrojmë lirinë për të udhëtuar pa stres.
             </p>
@@ -82,8 +80,8 @@ export const AboutSection = () => {
               {features.map((feature, index) => (
                 <motion.div
                   key={feature.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  initial={{ opacity: 0 }}
+                  animate={isInView ? { opacity: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
                   className="flex items-start gap-4 p-4 rounded-xl bg-secondary/50 hover:bg-secondary transition-colors"
                 >
