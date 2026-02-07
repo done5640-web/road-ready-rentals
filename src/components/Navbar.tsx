@@ -2,49 +2,25 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "@/assets/rental logo.png";
 
 const navLinks = [
-  { href: "/", label: "Kreu", hash: "#kreu" },
-  { href: "/rreth-nesh", label: "Rreth Nesh", hash: "#rreth-nesh" },
-  { href: "/makinat", label: "Makinat", hash: "#makinat" },
-  { href: "/galeria", label: "Galeria", hash: "#galeria" },
-  { href: "/kontakt", label: "Kontakt", hash: "#kontakt" },
+  { href: "/", label: "Kreu" },
+  { href: "/rreth-nesh", label: "Rreth Nesh" },
+  { href: "/makinat", label: "Makinat" },
+  { href: "/galeria", label: "Galeria" },
+  { href: "/kontakt", label: "Kontakt" },
 ];
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleNavClick = (link: typeof navLinks[0]) => {
     setIsOpen(false);
-
-    // "Kreu" always goes to homepage top
-    if (link.href === "/") {
-      if (location.pathname === "/") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      } else {
-        navigate("/");
-        setTimeout(() => {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        }, 100);
-      }
-      return;
-    }
-
-    // On the homepage, scroll to the section
-    if (location.pathname === "/") {
-      const element = document.querySelector(link.hash);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
-      }
-    } else {
-      // On any other page, navigate to the dedicated route
-      navigate(link.href);
-      window.scrollTo({ top: 0 });
-    }
+    navigate(link.href);
+    window.scrollTo({ top: 0 });
   };
 
   return (

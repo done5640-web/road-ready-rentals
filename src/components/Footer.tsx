@@ -1,13 +1,13 @@
 import { motion } from "framer-motion";
 import { Facebook, Instagram, Twitter, Youtube, ArrowUp } from "lucide-react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const footerLinks = {
   company: [
-    { label: "Rreth Nesh", href: "/rreth-nesh", hash: "#rreth-nesh" },
-    { label: "Makinat Tona", href: "/makinat", hash: "#makinat" },
-    { label: "Galeria", href: "/galeria", hash: "#galeria" },
-    { label: "Kontakt", href: "/kontakt", hash: "#kontakt" },
+    { label: "Rreth Nesh", href: "/rreth-nesh" },
+    { label: "Makinat Tona", href: "/makinat" },
+    { label: "Galeria", href: "/galeria" },
+    { label: "Kontakt", href: "/kontakt" },
   ],
   legal: [
     { label: "Kushtet e Përdorimit", href: "#" },
@@ -25,29 +25,14 @@ const socialLinks = [
 
 export const Footer = () => {
   const navigate = useNavigate();
-  const location = useLocation();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const handleNavClick = (link: { href: string; hash?: string }) => {
-    if (link.hash) {
-      if (location.pathname === "/") {
-        const element = document.querySelector(link.hash);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      } else {
-        navigate("/");
-        setTimeout(() => {
-          const element = document.querySelector(link.hash!);
-          if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
-          }
-        }, 100);
-      }
-    }
+  const handleNavClick = (link: { href: string }) => {
+    navigate(link.href);
+    window.scrollTo({ top: 0 });
   };
 
   return (
@@ -56,7 +41,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand */}
           <div className="sm:col-span-2">
-            <Link to="/" className="inline-block mb-6" onClick={scrollToTop}>
+            <Link to="/" className="inline-block mb-6" onClick={() => window.scrollTo({ top: 0 })}>
               <span className="text-2xl font-bold">
                 Rental <span className="text-primary">Car</span> Ago
               </span>
