@@ -20,21 +20,30 @@ export const Navbar = () => {
 
   const handleNavClick = (link: typeof navLinks[0]) => {
     setIsOpen(false);
+
+    // "Kreu" always goes to homepage top
+    if (link.href === "/") {
+      if (location.pathname === "/") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } else {
+        navigate("/");
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }, 100);
+      }
+      return;
+    }
+
+    // On the homepage, scroll to the section
     if (location.pathname === "/") {
-      // On homepage, scroll to section
       const element = document.querySelector(link.hash);
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
     } else {
-      // On other pages, navigate to homepage then scroll
-      navigate("/");
-      setTimeout(() => {
-        const element = document.querySelector(link.hash);
-        if (element) {
-          element.scrollIntoView({ behavior: "smooth" });
-        }
-      }, 100);
+      // On any other page, navigate to the dedicated route
+      navigate(link.href);
+      window.scrollTo({ top: 0 });
     }
   };
 
@@ -43,7 +52,7 @@ export const Navbar = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3" onClick={() => setIsOpen(false)}>
+          <Link to="/" className="flex items-center gap-3" onClick={() => { setIsOpen(false); window.scrollTo({ top: 0 }); }}>
             <img src={logo} alt="Rental Car Ago" className="h-10 lg:h-12 w-auto" />
             <span className="text-xl lg:text-2xl font-bold text-foreground">
               Rental <span className="text-primary">Car</span> Ago
