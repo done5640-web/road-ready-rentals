@@ -1,6 +1,6 @@
 import { useParams, Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import { ArrowLeft, ArrowRight, Users, Fuel, Settings, ChevronLeft, ChevronRight, Check, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/Navbar";
@@ -11,6 +11,17 @@ export const CarDetail = () => {
   const { id } = useParams();
   const car = cars.find((c) => c.id === Number(id));
   const [currentImage, setCurrentImage] = useState(0);
+  const [direction, setDirection] = useState(0);
+
+  // Preload all images on mount for zero-glitch transitions
+  useEffect(() => {
+    if (car) {
+      car.images.forEach((src) => {
+        const img = new Image();
+        img.src = src;
+      });
+    }
+  }, [car]);
 
   if (!car) {
     return (
@@ -30,11 +41,33 @@ export const CarDetail = () => {
   }
 
   const nextImage = () => {
+    setDirection(1);
     setCurrentImage((prev) => (prev + 1) % car.images.length);
   };
 
   const prevImage = () => {
+    setDirection(-1);
     setCurrentImage((prev) => (prev - 1 + car.images.length) % car.images.length);
+  };
+
+  const goToImage = (index: number) => {
+    setDirection(index > currentImage ? 1 : -1);
+    setCurrentImage(index);
+  };
+
+  const slideVariants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? "100%" : "-100%",
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+    exit: (dir: number) => ({
+      x: dir > 0 ? "-100%" : "100%",
+      opacity: 0,
+    }),
   };
 
   return (
@@ -67,31 +100,44 @@ export const CarDetail = () => {
               transition={{ duration: 0.6 }}
             >
               <div className="relative rounded-2xl overflow-hidden bg-muted">
-                <div className="relative aspect-[4/3]">
-                  <img
-                    src={car.images[currentImage]}
-                    alt={`${car.name} - foto ${currentImage + 1}`}
-                    className="w-full h-full object-cover transition-opacity duration-300"
-                  />
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <AnimatePresence initial={false} custom={direction} mode="popLayout">
+                    <motion.img
+                      key={currentImage}
+                      src={car.images[currentImage]}
+                      alt={`${car.name} - foto ${currentImage + 1}`}
+                      custom={direction}
+                      variants={slideVariants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{
+                        x: { type: "tween", duration: 0.4, ease: [0.25, 0.1, 0.25, 1] },
+                        opacity: { duration: 0.3 },
+                      }}
+                      className="absolute inset-0 w-full h-full object-cover will-change-transform"
+                      draggable={false}
+                    />
+                  </AnimatePresence>
 
                   {/* Navigation Arrows */}
                   <button
                     onClick={prevImage}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 p-2 bg-white/90 hover:bg-white rounded-full shadow-lg transition-colors"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 z-10 p-2 bg-white/90 hover:bg-white rounded-full shadow-lg transition-colors"
                     aria-label="Foto e mëparshme"
                   >
                     <ChevronLeft className="h-5 w-5 text-foreground" />
                   </button>
                   <button
                     onClick={nextImage}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2 bg-white/90 hover:bg-white rounded-full shadow-lg transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 z-10 p-2 bg-white/90 hover:bg-white rounded-full shadow-lg transition-colors"
                     aria-label="Foto e radhës"
                   >
                     <ChevronRight className="h-5 w-5 text-foreground" />
                   </button>
 
                   {/* Image Counter */}
-                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-black/60 text-white text-sm rounded-full">
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 px-3 py-1.5 bg-black/60 text-white text-sm rounded-full">
                     {currentImage + 1} / {car.images.length}
                   </div>
                 </div>
@@ -102,8 +148,8 @@ export const CarDetail = () => {
                 {car.images.map((img, index) => (
                   <button
                     key={index}
-                    onClick={() => setCurrentImage(index)}
-                    className={`relative flex-1 aspect-[4/3] rounded-xl overflow-hidden border-2 transition-all ${
+                    onClick={() => goToImage(index)}
+                    className={`relative flex-1 aspect-[4/3] rounded-xl overflow-hidden border-2 transition-all duration-300 ${
                       index === currentImage
                         ? "border-primary ring-2 ring-primary/30"
                         : "border-transparent opacity-70 hover:opacity-100"

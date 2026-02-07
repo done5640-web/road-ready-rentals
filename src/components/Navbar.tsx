@@ -89,9 +89,6 @@ export const Navbar = () => {
                   {link.label}
                 </button>
               ))}
-              <Button onClick={() => { handleNavClick(navLinks[2]); }} className="bg-primary text-primary-foreground hover:bg-primary/90 w-full mt-2">
-                Rezervo Tani
-              </Button>
             </div>
           </motion.div>
         )}

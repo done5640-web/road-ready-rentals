@@ -52,16 +52,6 @@ export const AboutSection = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/20 to-transparent" />
             </div>
             
-            {/* Floating Stats Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="absolute -bottom-6 -right-6 bg-primary text-primary-foreground p-6 rounded-2xl shadow-2xl"
-            >
-              <div className="text-4xl font-bold">10+</div>
-              <div className="text-sm opacity-90">Vite Eksperiencë</div>
-            </motion.div>
           </motion.div>
 
           {/* Content Side */}
